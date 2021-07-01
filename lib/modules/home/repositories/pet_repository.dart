@@ -1,23 +1,20 @@
 import 'dart:convert';
 
 import 'package:adotappet/modules/home/models/pet_model.dart';
-import 'package:http/http.dart' as http;
+import 'package:adotappet/utils/services/rest_api_service.dart';
 
 abstract class PetRepository {
   Future<List<Pet>> fetchPets();
 }
 
 class ApiPetRepository implements PetRepository {
+  PetService petService = ApiPetService();
+
   @override
   Future<List<Pet>> fetchPets() async {
-    var url = Uri.parse('http://192.168.0.101:8080/api/pets');
-    final response = await http.get(url);
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      return json.map<Pet>((data) => Pet.fromJson(data)).toList();
-    } else {
-      throw Exception('Failed to load pets');
-    }
+    final response = await petService.getPets();
+    var json = jsonDecode(response.body);
+    return json.map<Pet>((data) => Pet.fromJson(data)).toList();
   }
 
 }

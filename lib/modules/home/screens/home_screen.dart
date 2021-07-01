@@ -1,6 +1,8 @@
+import 'package:adotappet/constants/app_constants.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
 import 'package:adotappet/modules/home/repositories/pet_repository.dart';
-import 'package:adotappet/widgets/adotappet_icon.dart';
+import 'package:adotappet/modules/order_created/screens/order_created_screen.dart';
+import 'package:adotappet/widgets/custom_app_bar.dart';
 import 'package:adotappet/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
 
@@ -22,71 +24,59 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AdotappetIcon(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/avatar.png'),
-                    radius: 25,
-                  ),
+      appBar: CustomAppBar(isHome: true),
+      extendBody: true,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 30),
+          _TituloPagina(
+            texto: 'Doe seu lar,',
+            bold: true,
+          ),
+          _TituloPagina(
+            texto: 'adote um pet.',
+            bold: false,
+          ),
+          SizedBox(height: 15),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: _CartaoFiltro(
+                  pathImagem: 'assets/images/filtro_cachorro.png',
+                  textoCartao: 'Cachorros',
                 ),
-              ],
-            ),
-            SizedBox(height: 8),
-            _TituloPagina(
-              texto: 'Doe seu lar,',
-              bold: true,
-            ),
-            _TituloPagina(
-              texto: 'adote um pet.',
-              bold: false,
-            ),
-            SizedBox(height: 15),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: _CartaoFiltro(
-                    pathImagem: 'assets/images/cat.png',
-                    textoCartao: 'Cachorros',
-                  ),
-                ),
-                _CartaoFiltro(
-                  pathImagem: 'assets/images/cat.png',
-                  textoCartao: 'Gatos',
-                )
-              ],
-            ),
-            _TituloLista(),
-            FutureBuilder<List<Pet>>(
-              future: _futurePets,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Expanded(
-                    child: ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          Pet pet = snapshot.data![index];
-                          return _CartaoPet(pet: pet);
-                        }),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return CircularProgressIndicator();
-              },
-            ),
-          ],
-        ),
+              ),
+              _CartaoFiltro(
+                pathImagem: 'assets/images/filtro_gato.png',
+                textoCartao: 'Gatos',
+              )
+            ],
+          ),
+          _TituloLista(),
+          SizedBox(
+            height: 15,
+          ),
+          FutureBuilder<List<Pet>>(
+            future: _futurePets,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Expanded(
+                  child: ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        Pet pet = snapshot.data![index];
+                        return _CartaoPet(pet: pet);
+                      }),
+                );
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
+              return CircularProgressIndicator();
+            },
+          ),
+        ],
       ),
     );
   }
@@ -124,7 +114,7 @@ class _CartaoFiltro extends StatelessWidget {
     return Card(
       elevation: 10,
       shadowColor: Colors.grey,
-      color: Color.fromRGBO(223, 125, 54, 1),
+      color: AppColors.primary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10),
@@ -181,6 +171,7 @@ class _CartaoPet extends StatelessWidget {
     return Column(
       children: [
         CustomCard(
+          nextPage: OrderCreatedPage(),
           child: Row(
             children: [
               Padding(
@@ -222,7 +213,10 @@ class _CartaoPet extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: Text('Lorem ipsum dolor sit amet'),
+                      child: Text(
+                        'Lorem ipsum dolor sit amet',
+                        style: TextStyle(fontSize: 14),
+                      ),
                     ),
                   ],
                 ),
