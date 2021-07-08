@@ -1,7 +1,7 @@
 import 'package:adotappet/constants/app_constants.dart';
+import 'package:adotappet/modules/detail/screens/detail_screen.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
 import 'package:adotappet/modules/home/repositories/pet_repository.dart';
-import 'package:adotappet/modules/order_created/screens/order_created_screen.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
 import 'package:adotappet/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
@@ -171,7 +171,7 @@ class _CartaoPet extends StatelessWidget {
     return Column(
       children: [
         CustomCard(
-          nextPage: OrderCreatedPage(),
+          nextPage: DetailPage(pet),
           child: Row(
             children: [
               Padding(
