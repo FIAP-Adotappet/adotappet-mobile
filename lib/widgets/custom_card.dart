@@ -14,7 +14,8 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      margin: const EdgeInsets.only(top: 20.0, right: 20, left: 20),
+      height: 106,
       child: InkWell(
         onTap: () {
           Navigator.push(
@@ -32,13 +33,16 @@ class CustomCard extends StatelessWidget {
         ),
       ),
       decoration: new BoxDecoration(
+        boxShadow: [
+          new BoxShadow(
+            color: Colors.grey.withOpacity(0.3),
+            spreadRadius: 3,
+            blurRadius: 5,
+            offset: Offset(0, 0), // changes position of shadow
+          ),
+        ],
         borderRadius: BorderRadius.all(
           Radius.circular(radius),
-        ),
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.grey.withOpacity(.35), Colors.white],
         ),
       ),
     );

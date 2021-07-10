@@ -8,10 +8,8 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
 
   final bool isHome;
 
-  CustomAppBar({
-    Key? key,
-    this.isHome = false
-  })  : preferredSize = Size.fromHeight(50.0),
+  CustomAppBar({Key? key, this.isHome = false})
+      : preferredSize = Size.fromHeight(65.0),
         super(key: key);
 
   @override
@@ -20,14 +18,14 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       elevation: 0,
       centerTitle: true,
       backgroundColor: Colors.transparent,
-      automaticallyImplyLeading: true,
-      leading: isHome ? AdotappetIcon() : BackButton(color: Colors.black),
+      automaticallyImplyLeading: false,
+      flexibleSpace: isHome ? AdotappetIcon() : BackButton(color: Colors.black),
       actions: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        Container(
+          margin: const EdgeInsets.only(top: 10.0, right: 25, left: 0),
           child: CircleAvatar(
             child: ClipOval(
-              child: Image.asset('assets/images/avatar.png'),
+              child: Image.asset('assets/images/avatar_deslogado.png'),
             ),
           ),
         ),
