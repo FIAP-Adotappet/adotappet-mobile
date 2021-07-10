@@ -19,7 +19,12 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       centerTitle: true,
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
-      flexibleSpace: isHome ? AdotappetIcon() : BackButton(color: Colors.black),
+      flexibleSpace: isHome
+          ? AdotappetIcon()
+          : Container(
+              alignment: Alignment(-0.95, 0),
+              margin: const EdgeInsets.only(top: 20.0),
+              child: BackButton(color: Colors.black)),
       actions: [
         Container(
           margin: const EdgeInsets.only(top: 10.0, right: 25, left: 0),
