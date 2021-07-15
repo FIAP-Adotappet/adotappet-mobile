@@ -8,6 +8,7 @@ class Pet {
   final String porte;
   final String sexo;
   final String imagem;
+  final String imagemFundo;
 
   Pet({
     required this.nome,
@@ -17,15 +18,24 @@ class Pet {
     required this.porte,
     required this.sexo,
     required this.imagem,
+    required this.imagemFundo,
   });
 
   static Pet fromJson(Map json) {
-    return Pet(nome: json['nome'], tipo: json['tipo'], raca: json['raca'],
-        idade: transformarParaIdade(json['dataNascimento']), porte: json['porte'], sexo: json['sexo'], imagem: json['imagem']);
+    return Pet(
+        nome: json['nome'],
+        tipo: json['tipo'],
+        raca: json['raca'],
+        idade: transformarParaIdade(json['dataNascimento']),
+        porte: json['porte'],
+        sexo: json['sexo'],
+        imagem: json['imagem'],
+        imagemFundo: definirImagemDeFundo(json['tipo']));
   }
 
   static String transformarParaIdade(String dataNascimentoString) {
-    DateTime dataNascimento = DateHelper.parseStringToDateTime(dataNascimentoString, "yyyy-MM-dd");
+    DateTime dataNascimento =
+        DateHelper.parseStringToDateTime(dataNascimentoString, "yyyy-MM-dd");
     int ano = DateHelper.getYearsUntilToday(dataNascimento);
     int mes = DateHelper.getMonthsUntilToday(dataNascimento);
     String textoMes = mes > 1 ? 'Meses' : 'Mês';
@@ -34,5 +44,11 @@ class Pet {
     }
     String textoAno = ano > 1 ? 'Anos' : 'Ano';
     return '$ano $textoAno e $mes $textoMes';
+  }
+
+  static String definirImagemDeFundo(String tipo) {
+    return tipo == "CACHORRO"
+        ? "assets/images/filtro_cachorro.png"
+        : "assets/images/filtro_gato.png";
   }
 }
