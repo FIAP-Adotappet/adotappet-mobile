@@ -15,15 +15,22 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var icon = Icon(
-      widget.pet.sexo == "FEMININO" ? Icons.female : Icons.male,
-      color: Colors.orange,
-      size: 35,
+
+    var icon = Image.asset(
+      "assets/images/icon_" +
+          (widget.pet.sexo == "FEMININO" ? "f" : "m") +
+          ".png",
+      width: 25,
     );
     return Scaffold(
         appBar: CustomAppBar(),
         body: Stack(children: [
           Container(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Colors.grey.shade200, Colors.white])),
             width: size.width,
             height: size.height * 0.41,
             margin: EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
@@ -37,7 +44,7 @@ class _DetailPageState extends State<DetailPage> {
           ),
           _DetailsPet(pet: widget.pet, size: size),
           Positioned(
-            bottom: 15,
+            bottom: 30,
             right: 30,
             left: 30,
             height: 40,
@@ -49,7 +56,10 @@ class _DetailPageState extends State<DetailPage> {
               ))),
               child: Text(
                 'TENHO INTERESSE!',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.normal),
               ),
               onPressed: () {
                 Navigator.push(
@@ -61,7 +71,7 @@ class _DetailPageState extends State<DetailPage> {
           ),
           Positioned(
             right: 30,
-            bottom: size.height * 0.33,
+            bottom: size.height * 0.37,
             child: icon,
           )
         ]));
@@ -84,7 +94,7 @@ class _DetailsPet extends StatelessWidget {
           ),
         ),
         Container(
-          height: size.height * 0.41,
+          height: size.height * 0.44,
           width: double.maxFinite,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -114,14 +124,17 @@ class _DetailsPet extends StatelessWidget {
                 Text(
                   pet.nome,
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.left,
                 ),
                 Text(
                   pet.idade,
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+                  style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal),
                 ),
                 SizedBox(
                   height: 20,
@@ -129,11 +142,17 @@ class _DetailsPet extends StatelessWidget {
                 Text(
                   "\u2022 Raça: ${pet.raca}\n"
                   "\u2022 Porte: ${pet.porte}\n",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal),
                 ),
                 Text(
                   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal),
                 ),
               ],
             ),
