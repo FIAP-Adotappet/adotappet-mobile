@@ -187,7 +187,7 @@ class _CartaoPet extends StatelessWidget {
                   alignment: Alignment(0.95, 0),
                   colorFilter: new ColorFilter.mode(
                       Colors.white.withOpacity(0.1), BlendMode.dstATop),
-                  image: AssetImage("assets/images/gato_2.png"),
+                  image: AssetImage(pet.imagemFundo),
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -249,6 +249,19 @@ class _CartaoPet extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                  SizedBox(width: 55),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Image.asset(
+                        "assets/images/icon_" +
+                            (pet.sexo == "FEMININO" ? "f" : "m") +
+                            ".png",
+                        width: 15,
+                      ),
                     ),
                   ),
                 ],

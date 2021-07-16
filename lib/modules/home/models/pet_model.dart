@@ -48,7 +48,7 @@ class Pet {
 
   static String definirImagemDeFundo(String tipo) {
     return tipo == "CACHORRO"
-        ? "assets/images/filtro_cachorro.png"
-        : "assets/images/filtro_gato.png";
+        ? "assets/images/bg_cachorro.png"
+        : "assets/images/bg_gato.png";
   }
 }
