@@ -16,22 +16,22 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      centerTitle: true,
       backgroundColor: Colors.transparent,
       automaticallyImplyLeading: false,
       flexibleSpace: isHome
           ? AdotappetIcon()
           : Container(
               alignment: Alignment(-0.95, 0),
-              margin: const EdgeInsets.only(top: 20.0),
-              child: BackButton(color: Colors.black)),
+              margin: const EdgeInsets.only(top: 10.0),
+              child: BackButton(color: Colors.grey[600])),
       actions: [
         Container(
-          margin: const EdgeInsets.only(top: 10.0, right: 25, left: 0),
-          child: CircleAvatar(
-            child: ClipOval(
-              child: Image.asset('assets/images/avatar_deslogado.png'),
-            ),
+          margin: const EdgeInsets.only(
+            right: 25,
+            top: 20.0,
+          ),
+          child: ClipOval(
+            child: Image.asset('assets/images/avatar_deslogado.png'),
           ),
         ),
       ],
