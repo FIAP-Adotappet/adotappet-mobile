@@ -57,9 +57,11 @@ class _DetailPageState extends State<DetailPage> {
               child: Text(
                 'TENHO INTERESSE!',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.normal),
+                  color: Colors.white,
+                  fontSize: 19,
+                  fontWeight: FontWeight.normal,
+                  letterSpacing: 3.0,
+                ),
               ),
               onPressed: () {
                 Navigator.push(
