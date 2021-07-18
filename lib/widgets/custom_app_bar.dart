@@ -7,8 +7,9 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   final Size preferredSize;
 
   final bool isHome;
+  final bool sideBar;
 
-  CustomAppBar({Key? key, this.isHome = false})
+  CustomAppBar({Key? key, this.isHome = false, this.sideBar = false})
       : preferredSize = Size.fromHeight(65.0),
         super(key: key);
 
@@ -30,9 +31,13 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
             right: 25,
             top: 20.0,
           ),
-          child: ClipOval(
-            child: Image.asset('assets/images/avatar_deslogado.png'),
-          ),
+          child: sideBar
+              ? CloseButton(color: Colors.grey[600])
+              : CircleAvatar(
+                  child: ClipOval(
+                    child: Image.asset('assets/images/avatar_deslogado.png'),
+                  ),
+                ),
         ),
       ],
     );
