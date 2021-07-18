@@ -28,22 +28,60 @@ class _CadastroUserState extends State<CadastroUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _montaFormularioDadosCadastrais(context),
-              _montaBotaoCadastro(context),
-            ],
-          ),
+      body: SingleChildScrollView(
+        // height: 2000,
+        // width: MediaQuery.of(context).size.width,
+        // margin: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Container(
+              // height: 600.0,
+              padding: EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                border: Border.fromBorderSide(
+                  BorderSide(color: Colors.orange),
+                ),
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  _montaHeaderCadastro(context),
+                  _montaFormularioDadosCadastrais(context),
+                ],
+              ),
+            ),
+            _montaBotaoCadastro(context),
+          ],
         ),
       ),
+    );
+  }
+
+  _montaHeaderCadastro(context) {
+    return Row(
+      children: [
+        Image(
+          image: AssetImage('assets/images/sucesso.png'),
+          width: 48,
+          height: 48,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 40),
+          child: Text(
+            "Preencha os campos abaixo com \ndados reais sobre você ",
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -51,6 +89,7 @@ class _CadastroUserState extends State<CadastroUser> {
     return Form(
       key: _formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
           _montaInput(
               inputControler: _nameInputController,
