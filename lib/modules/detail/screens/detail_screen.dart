@@ -1,3 +1,4 @@
+import 'package:adotappet/globals.dart';
 import 'package:adotappet/modules/cadastro_user/screens/cadastro_user.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
@@ -17,7 +18,8 @@ class _DetailPageState extends State<DetailPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    final leftSlide = MediaQuery.of(context).size.width * 0.6;
+    final leftSlide =
+        MediaQuery.of(context).size.width * (Global.showSideBar ? 0.6 : 0);
     var icon = Image.asset(
       "assets/images/icon_" +
           (widget.pet.sexo == "FEMININO" ? "f" : "m") +

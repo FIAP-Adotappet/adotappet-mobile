@@ -1,3 +1,4 @@
+import 'package:adotappet/globals.dart';
 import 'package:flutter/material.dart';
 
 import 'adotappet_icon.dart';
@@ -33,9 +34,15 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
           ),
           child: sideBar
               ? CloseButton(color: Colors.grey[600])
-              : CircleAvatar(
-                  child: ClipOval(
-                    child: Image.asset('assets/images/avatar_deslogado.png'),
+              : GestureDetector(
+                  onTap: () {
+                    Global.showSideBar = !Global.showSideBar;
+                    print(Global.showSideBar);
+                  },
+                  child: CircleAvatar(
+                    child: ClipOval(
+                      child: Image.asset('assets/images/avatar_deslogado.png'),
+                    ),
                   ),
                 ),
         ),

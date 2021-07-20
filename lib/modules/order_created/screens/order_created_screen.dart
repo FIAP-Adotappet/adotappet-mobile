@@ -1,3 +1,4 @@
+import 'package:adotappet/globals.dart';
 import 'package:adotappet/constants/app_constants.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
 import 'package:adotappet/widgets/side_menu_bar.dart';
@@ -6,7 +7,8 @@ import 'package:flutter/material.dart';
 class OrderCreatedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final leftSlide = MediaQuery.of(context).size.width * 0.6;
+    final leftSlide =
+        MediaQuery.of(context).size.width * (Global.showSideBar ? 0.6 : 0);
 
     return Scaffold(
       appBar: CustomAppBar(),

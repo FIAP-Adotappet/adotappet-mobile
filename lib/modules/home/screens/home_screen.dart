@@ -1,3 +1,4 @@
+import 'package:adotappet/globals.dart';
 import 'package:adotappet/constants/app_constants.dart';
 import 'package:adotappet/modules/detail/screens/detail_screen.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
@@ -24,7 +25,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final leftSlide = MediaQuery.of(context).size.width * 0.6;
+    final leftSlide =
+        MediaQuery.of(context).size.width * (Global.showSideBar ? 0.6 : 0);
 
     return Stack(
       children: [
