@@ -1,3 +1,4 @@
+import 'package:adotappet/globals.dart';
 import 'package:flutter/material.dart';
 
 import 'adotappet_icon.dart';
@@ -7,29 +8,43 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   final Size preferredSize;
 
   final bool isHome;
+  final bool sideBar;
 
-  CustomAppBar({
-    Key? key,
-    this.isHome = false
-  })  : preferredSize = Size.fromHeight(50.0),
+  CustomAppBar({Key? key, this.isHome = false, this.sideBar = false})
+      : preferredSize = Size.fromHeight(65.0),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      centerTitle: true,
       backgroundColor: Colors.transparent,
-      automaticallyImplyLeading: true,
-      leading: isHome ? AdotappetIcon() : BackButton(color: Colors.black),
+      automaticallyImplyLeading: false,
+      flexibleSpace: isHome
+          ? AdotappetIcon()
+          : Container(
+              alignment: Alignment(-0.95, 0),
+              margin: const EdgeInsets.only(top: 10.0),
+              child: BackButton(color: Colors.grey[600])),
       actions: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            child: ClipOval(
-              child: Image.asset('assets/images/avatar.png'),
-            ),
+        Container(
+          margin: const EdgeInsets.only(
+            right: 25,
+            top: 20.0,
           ),
+          child: sideBar
+              ? CloseButton(color: Colors.grey[600])
+              : GestureDetector(
+                  onTap: () {
+                    Global.showSideBar = !Global.showSideBar;
+                    print(Global.showSideBar);
+                  },
+                  child: CircleAvatar(
+                    child: ClipOval(
+                      child: Image.asset('assets/images/avatar_deslogado.png'),
+                    ),
+                  ),
+                ),
         ),
       ],
     );

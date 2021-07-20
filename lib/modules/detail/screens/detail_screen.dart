@@ -1,6 +1,8 @@
+import 'package:adotappet/globals.dart';
 import 'package:adotappet/modules/cadastro_user/screens/cadastro_user.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
+import 'package:adotappet/widgets/side_menu_bar.dart';
 import 'package:flutter/material.dart';
 
 class DetailPage extends StatefulWidget {
@@ -15,56 +17,102 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var icon = Icon(
-      widget.pet.sexo == "FEMININO" ? Icons.female : Icons.male,
-      color: Colors.orange,
-      size: 35,
+
+    final leftSlide =
+        MediaQuery.of(context).size.width * (Global.showSideBar ? 0.6 : 0);
+    var icon = Image.asset(
+      "assets/images/icon_" +
+          (widget.pet.sexo == "FEMININO" ? "f" : "m") +
+          ".png",
+      width: 25,
     );
-    return Scaffold(
-        appBar: CustomAppBar(),
-        body: Stack(children: [
-          Container(
-            width: size.width,
-            height: size.height * 0.41,
-            margin: EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(25.0),
-              child: Image.network(
-                widget.pet.imagem,
-                fit: BoxFit.cover,
+
+    return Stack(
+      children: [
+        SideMenuBar(),
+
+        // Content page
+        Transform(
+          transform: Matrix4.identity()..translate(-leftSlide),
+          alignment: Alignment.center,
+          child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Colors.grey.shade200, Colors.white]),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 0),
+                  ),
+                ],
               ),
-            ),
-          ),
-          _DetailsPet(pet: widget.pet, size: size),
-          Positioned(
-            bottom: 15,
-            right: 30,
-            left: 30,
-            height: 40,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ))),
-              child: Text(
-                'TENHO INTERESSE!',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.normal),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CadastroUser()),
-                );
-              },
-            ),
-          ),
-          Positioned(
-            right: 30,
-            bottom: size.height * 0.33,
-            child: icon,
-          )
-        ]));
+              child: Scaffold(
+                appBar: CustomAppBar(isHome: true),
+                extendBody: true,
+                backgroundColor: Colors.transparent,
+                body: Stack(children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [Colors.grey.shade200, Colors.white])),
+                    width: size.width,
+                    height: size.height * 0.41,
+                    margin: EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25.0),
+                      child: Image.network(
+                        widget.pet.imagem,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  _DetailsPet(pet: widget.pet, size: size),
+                  Positioned(
+                    bottom: 30,
+                    right: 30,
+                    left: 30,
+                    height: 40,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ))),
+                      child: Text(
+                        'TENHO INTERESSE!',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 19,
+                          fontWeight: FontWeight.normal,
+                          letterSpacing: 3.0,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CadastroUser()),
+                        );
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    right: 30,
+                    bottom: size.height * 0.37,
+                    child: icon,
+                  )
+                ]),
+              )),
+        )
+      ],
+    );
   }
 }
 
@@ -84,7 +132,7 @@ class _DetailsPet extends StatelessWidget {
           ),
         ),
         Container(
-          height: size.height * 0.41,
+          height: size.height * 0.44,
           width: double.maxFinite,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -114,14 +162,17 @@ class _DetailsPet extends StatelessWidget {
                 Text(
                   pet.nome,
                   style: TextStyle(
-                    fontSize: 22,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.left,
                 ),
                 Text(
                   pet.idade,
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+                  style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal),
                 ),
                 SizedBox(
                   height: 20,
@@ -129,11 +180,17 @@ class _DetailsPet extends StatelessWidget {
                 Text(
                   "\u2022 Raça: ${pet.raca}\n"
                   "\u2022 Porte: ${pet.porte}\n",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal),
                 ),
                 Text(
                   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                  style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15,
+                      fontWeight: FontWeight.normal),
                 ),
               ],
             ),

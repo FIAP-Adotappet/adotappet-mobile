@@ -1,8 +1,10 @@
+import 'package:adotappet/globals.dart';
 import 'package:adotappet/constants/app_constants.dart';
 import 'package:adotappet/modules/detail/screens/detail_screen.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
 import 'package:adotappet/modules/home/repositories/pet_repository.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
+import 'package:adotappet/widgets/side_menu_bar.dart';
 import 'package:adotappet/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
 
@@ -23,61 +25,88 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(isHome: true),
-      extendBody: true,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 30),
-          _TituloPagina(
-            texto: 'Doe seu lar,',
-            bold: true,
-          ),
-          _TituloPagina(
-            texto: 'adote um pet.',
-            bold: false,
-          ),
-          SizedBox(height: 15),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: _CartaoFiltro(
-                  pathImagem: 'assets/images/filtro_cachorro.png',
-                  textoCartao: 'Cachorros',
-                ),
+    final leftSlide =
+        MediaQuery.of(context).size.width * (Global.showSideBar ? 0.6 : 0);
+
+    return Stack(
+      children: [
+        SideMenuBar(),
+
+        // Content page
+        Transform(
+          transform: Matrix4.identity()..translate(-leftSlide),
+          alignment: Alignment.center,
+          child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Colors.grey.shade200, Colors.white]),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 0),
+                  ),
+                ],
               ),
-              _CartaoFiltro(
-                pathImagem: 'assets/images/filtro_gato.png',
-                textoCartao: 'Gatos',
-              )
-            ],
-          ),
-          _TituloLista(),
-          SizedBox(
-            height: 15,
-          ),
-          FutureBuilder<List<Pet>>(
-            future: _futurePets,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Expanded(
-                  child: ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        Pet pet = snapshot.data![index];
-                        return _CartaoPet(pet: pet);
-                      }),
-                );
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
-              return CircularProgressIndicator();
-            },
-          ),
-        ],
-      ),
+              child: Scaffold(
+                appBar: CustomAppBar(isHome: true),
+                extendBody: true,
+                backgroundColor: Colors.transparent,
+                body: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 25),
+                    _TituloPagina(
+                      texto: 'Doe seu lar,',
+                      bold: true,
+                    ),
+                    _TituloPagina(
+                      texto: 'adote um pet.',
+                      bold: false,
+                    ),
+                    SizedBox(height: 30),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: _CartaoFiltro(
+                            pathImagem: 'assets/images/filtro_cachorro.png',
+                            textoCartao: 'Cachorros',
+                          ),
+                        ),
+                        _CartaoFiltro(
+                          pathImagem: 'assets/images/filtro_gato.png',
+                          textoCartao: 'Gatos',
+                        )
+                      ],
+                    ),
+                    _TituloLista(),
+                    FutureBuilder<List<Pet>>(
+                      future: _futurePets,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Expanded(
+                            child: ListView.builder(
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  Pet pet = snapshot.data![index];
+                                  return _CartaoPet(pet: pet);
+                                }),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text("${snapshot.error}");
+                        }
+                        return CircularProgressIndicator();
+                      },
+                    ),
+                  ],
+                ),
+              )),
+        )
+      ],
     );
   }
 }
@@ -91,12 +120,14 @@ class _TituloPagina extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 12.0),
+      padding: const EdgeInsets.only(left: 25),
       child: Text(
         texto,
         style: TextStyle(
+          color: Colors.grey[800],
           fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-          fontSize: 32,
+          fontSize: 33,
+          height: 1,
         ),
       ),
     );
@@ -122,18 +153,21 @@ class _CartaoFiltro extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image(
-            image: AssetImage(pathImagem),
-            width: 40,
-            height: 40,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: Image(
+              image: AssetImage(pathImagem),
+              width: 30,
+              height: 30,
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 5, right: 10),
+            padding: const EdgeInsets.only(right: 20),
             child: Text(
               textoCartao,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
+                fontSize: 13,
                 color: Colors.white,
               ),
             ),
@@ -148,12 +182,12 @@ class _TituloLista extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 28, right: 12, left: 12, bottom: 5),
+      padding: const EdgeInsets.only(top: 25, right: 0, left: 25, bottom: 10),
       child: Row(
         children: [
           Text(
             'Pets para adoção',
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(color: Colors.grey[600], fontSize: 20),
           )
         ],
       ),
@@ -171,60 +205,93 @@ class _CartaoPet extends StatelessWidget {
     return Column(
       children: [
         CustomCard(
-          nextPage: DetailPage(pet),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image(
-                  fit: BoxFit.fill,
-                  image: NetworkImage(pet.imagem),
-                  width: 80,
-                  height: 80,
+            nextPage: DetailPage(pet),
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  alignment: Alignment(0.95, 0),
+                  colorFilter: new ColorFilter.mode(
+                      Colors.white.withOpacity(0.1), BlendMode.dstATop),
+                  image: AssetImage(pet.imagemFundo),
+                  fit: BoxFit.fitHeight,
                 ),
               ),
-              SizedBox(width: 10),
-              Container(
-                alignment: Alignment.topLeft,
-                height: 80,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        pet.nome,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(7),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(pet.imagem),
+                        width: 90,
+                        height: 90,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: Text(
+                              pet.nome,
+                              style: TextStyle(
+                                color: Colors.grey[800],
+                                fontSize: 21,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
                         ),
-                        textAlign: TextAlign.left,
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 2),
+                            child: Text(
+                              pet.idade,
+                              style: TextStyle(
+                                  color: Colors.grey[800], fontSize: 12),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            height: double.infinity,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Lorem ipsum dolor sit amet',
+                            style: TextStyle(
+                                color: Colors.grey[700], fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: 55),
+                  Container(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Image.asset(
+                        "assets/images/icon_" +
+                            (pet.sexo == "FEMININO" ? "f" : "m") +
+                            ".png",
+                        width: 15,
                       ),
                     ),
-                    Expanded(
-                      child: Text(
-                        pet.idade,
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                    Expanded(
-                      child: SizedBox(
-                        height: double.infinity,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Lorem ipsum dolor sit amet',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-        SizedBox(height: 10),
+            )),
       ],
     );
   }

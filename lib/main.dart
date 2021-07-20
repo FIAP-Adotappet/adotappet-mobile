@@ -12,8 +12,9 @@ class AdotAppet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Adotappet',
-      theme: AppThemes.getThemeData(),
+      theme: AppThemes.getThemeData(context),
       home: HomePage(),
     );
   }
