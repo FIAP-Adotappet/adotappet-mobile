@@ -1,7 +1,9 @@
 import 'package:adotappet/globals.dart';
 import 'package:adotappet/constants/app_constants.dart';
+import 'package:adotappet/utils/mixins/mixin.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
 import 'package:adotappet/widgets/side_menu_bar.dart';
+import 'package:adotappet/widgets/user_transform.dart';
 import 'package:flutter/material.dart';
 
 class CadastroUser extends StatefulWidget {
@@ -11,7 +13,7 @@ class CadastroUser extends StatefulWidget {
   _CadastroUserState createState() => _CadastroUserState();
 }
 
-class _CadastroUserState extends State<CadastroUser> {
+class _CadastroUserState extends State<CadastroUser> with Login {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _nameInputController = TextEditingController();
   TextEditingController _mailInputController = TextEditingController();
@@ -28,61 +30,44 @@ class _CadastroUserState extends State<CadastroUser> {
 
   @override
   Widget build(BuildContext context) {
-    final leftSlide =
-        MediaQuery.of(context).size.width * (Global.showSideBar ? 0.6 : 0);
-
     return Stack(
       children: [
         SideMenuBar(),
 
         // Content page
-        Transform(
-          transform: Matrix4.identity()..translate(-leftSlide),
-          alignment: Alignment.center,
-          child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [Colors.grey.shade200, Colors.white]),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 0),
+        UserTransform(
+          leftSlide: leftSlide,
+          child: Scaffold(
+            appBar: CustomAppBar(
+              onAvatarClick: () => this.showHideUser(),
+            ),
+            body: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(5.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.fromBorderSide(
+                        BorderSide(color: Colors.orange),
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        _montaHeaderCadastro(context),
+                        _montaFormularioDadosCadastrais(context),
+                      ],
+                    ),
                   ),
+                  _montaBotaoCadastro(context),
                 ],
               ),
-              child: Scaffold(
-                appBar: CustomAppBar(),
-                body: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.fromBorderSide(
-                            BorderSide(color: Colors.orange),
-                          ),
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            _montaHeaderCadastro(context),
-                            _montaFormularioDadosCadastrais(context),
-                          ],
-                        ),
-                      ),
-                      _montaBotaoCadastro(context),
-                    ],
-                  ),
-                ),
-              )),
+            ),
+          ),
         )
       ],
     );

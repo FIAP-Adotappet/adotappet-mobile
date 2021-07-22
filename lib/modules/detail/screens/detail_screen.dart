@@ -1,25 +1,26 @@
 import 'package:adotappet/globals.dart';
 import 'package:adotappet/modules/cadastro_user/screens/cadastro_user.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
+import 'package:adotappet/utils/mixins/mixin.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
 import 'package:adotappet/widgets/side_menu_bar.dart';
+import 'package:adotappet/widgets/user_transform.dart';
 import 'package:flutter/material.dart';
 
 class DetailPage extends StatefulWidget {
   final Pet pet;
+
   DetailPage(this.pet);
 
   @override
   _DetailPageState createState() => _DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _DetailPageState extends State<DetailPage> with Login {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    final leftSlide =
-        MediaQuery.of(context).size.width * (Global.showSideBar ? 0.6 : 0);
     var icon = Image.asset(
       "assets/images/icon_" +
           (widget.pet.sexo == "FEMININO" ? "f" : "m") +
@@ -32,84 +33,69 @@ class _DetailPageState extends State<DetailPage> {
         SideMenuBar(),
 
         // Content page
-        Transform(
-          transform: Matrix4.identity()..translate(-leftSlide),
-          alignment: Alignment.center,
-          child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [Colors.grey.shade200, Colors.white]),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 0),
+        UserTransform(
+          leftSlide: leftSlide,
+          child: Scaffold(
+            appBar: CustomAppBar(
+              isHome: true,
+              onAvatarClick: () => this.showHideUser(),
+            ),
+            extendBody: true,
+            backgroundColor: Colors.transparent,
+            body: Stack(children: [
+              Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [Colors.grey.shade200, Colors.white])),
+                width: size.width,
+                height: size.height * 0.41,
+                margin: EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(25.0),
+                  child: Image.network(
+                    widget.pet.imagem,
+                    fit: BoxFit.cover,
                   ),
-                ],
+                ),
               ),
-              child: Scaffold(
-                appBar: CustomAppBar(isHome: true),
-                extendBody: true,
-                backgroundColor: Colors.transparent,
-                body: Stack(children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                            colors: [Colors.grey.shade200, Colors.white])),
-                    width: size.width,
-                    height: size.height * 0.41,
-                    margin: EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(25.0),
-                      child: Image.network(
-                        widget.pet.imagem,
-                        fit: BoxFit.cover,
-                      ),
+              _DetailsPet(pet: widget.pet, size: size),
+              Positioned(
+                bottom: 30,
+                right: 30,
+                left: 30,
+                height: 40,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ))),
+                  child: Text(
+                    'TENHO INTERESSE!',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.normal,
+                      letterSpacing: 3.0,
                     ),
                   ),
-                  _DetailsPet(pet: widget.pet, size: size),
-                  Positioned(
-                    bottom: 30,
-                    right: 30,
-                    left: 30,
-                    height: 40,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ))),
-                      child: Text(
-                        'TENHO INTERESSE!',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 19,
-                          fontWeight: FontWeight.normal,
-                          letterSpacing: 3.0,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CadastroUser()),
-                        );
-                      },
-                    ),
-                  ),
-                  Positioned(
-                    right: 30,
-                    bottom: size.height * 0.37,
-                    child: icon,
-                  )
-                ]),
-              )),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CadastroUser()),
+                    );
+                  },
+                ),
+              ),
+              Positioned(
+                right: 30,
+                bottom: size.height * 0.37,
+                child: icon,
+              )
+            ]),
+          ),
         )
       ],
     );

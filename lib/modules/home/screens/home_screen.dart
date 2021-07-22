@@ -3,9 +3,11 @@ import 'package:adotappet/constants/app_constants.dart';
 import 'package:adotappet/modules/detail/screens/detail_screen.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
 import 'package:adotappet/modules/home/repositories/pet_repository.dart';
+import 'package:adotappet/utils/mixins/mixin.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
 import 'package:adotappet/widgets/side_menu_bar.dart';
 import 'package:adotappet/widgets/custom_card.dart';
+import 'package:adotappet/widgets/user_transform.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,7 +15,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with Login {
   late Future<List<Pet>> _futurePets;
   PetRepository _petRepository = ApiPetRepository();
 
@@ -25,86 +27,70 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final leftSlide =
-        MediaQuery.of(context).size.width * (Global.showSideBar ? 0.6 : 0);
-
     return Stack(
       children: [
         SideMenuBar(),
 
         // Content page
-        Transform(
-          transform: Matrix4.identity()..translate(-leftSlide),
-          alignment: Alignment.center,
-          child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: [Colors.grey.shade200, Colors.white]),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 0),
-                  ),
-                ],
-              ),
-              child: Scaffold(
-                appBar: CustomAppBar(isHome: true),
-                extendBody: true,
-                backgroundColor: Colors.transparent,
-                body: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        UserTransform(
+          leftSlide: leftSlide,
+          child: Scaffold(
+            appBar: CustomAppBar(
+              isHome: true,
+              onAvatarClick: () => this.showHideUser(),
+            ),
+            extendBody: true,
+            backgroundColor: Colors.transparent,
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 25),
+                _TituloPagina(
+                  texto: 'Doe seu lar,',
+                  bold: true,
+                ),
+                _TituloPagina(
+                  texto: 'adote um pet.',
+                  bold: false,
+                ),
+                SizedBox(height: 30),
+                Row(
                   children: [
-                    SizedBox(height: 25),
-                    _TituloPagina(
-                      texto: 'Doe seu lar,',
-                      bold: true,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: _CartaoFiltro(
+                        pathImagem: 'assets/images/filtro_cachorro.png',
+                        textoCartao: 'Cachorros',
+                      ),
                     ),
-                    _TituloPagina(
-                      texto: 'adote um pet.',
-                      bold: false,
-                    ),
-                    SizedBox(height: 30),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: _CartaoFiltro(
-                            pathImagem: 'assets/images/filtro_cachorro.png',
-                            textoCartao: 'Cachorros',
-                          ),
-                        ),
-                        _CartaoFiltro(
-                          pathImagem: 'assets/images/filtro_gato.png',
-                          textoCartao: 'Gatos',
-                        )
-                      ],
-                    ),
-                    _TituloLista(),
-                    FutureBuilder<List<Pet>>(
-                      future: _futurePets,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Expanded(
-                            child: ListView.builder(
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  Pet pet = snapshot.data![index];
-                                  return _CartaoPet(pet: pet);
-                                }),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text("${snapshot.error}");
-                        }
-                        return CircularProgressIndicator();
-                      },
-                    ),
+                    _CartaoFiltro(
+                      pathImagem: 'assets/images/filtro_gato.png',
+                      textoCartao: 'Gatos',
+                    )
                   ],
                 ),
-              )),
+                _TituloLista(),
+                FutureBuilder<List<Pet>>(
+                  future: _futurePets,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Expanded(
+                        child: ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              Pet pet = snapshot.data![index];
+                              return _CartaoPet(pet: pet);
+                            }),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    return CircularProgressIndicator();
+                  },
+                ),
+              ],
+            ),
+          ),
         )
       ],
     );
