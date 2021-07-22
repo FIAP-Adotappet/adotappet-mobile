@@ -35,7 +35,6 @@ class SideMenuBar extends StatelessWidget {
                   ),
                   height: 70,
                 ),
-
                 // Login
                 Container(
                   margin: const EdgeInsets.only(top: 60.0),

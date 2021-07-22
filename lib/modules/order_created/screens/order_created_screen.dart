@@ -1,4 +1,3 @@
-import 'package:adotappet/globals.dart';
 import 'package:adotappet/constants/app_constants.dart';
 import 'package:adotappet/utils/mixins/mixin.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
@@ -36,7 +35,7 @@ class _OrderCreatedPageState extends State<OrderCreatedPage> with Login {
                   children: [
                     Image(image: AssetImage('assets/images/sucesso.png')),
                     SizedBox(
-                      height: 50,
+                      height: 20,
                     ),
                     Text(
                       'Obrigado!',

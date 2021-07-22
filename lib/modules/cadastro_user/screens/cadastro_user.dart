@@ -1,4 +1,3 @@
-import 'package:adotappet/globals.dart';
 import 'package:adotappet/constants/app_constants.dart';
 import 'package:adotappet/utils/mixins/mixin.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
@@ -299,6 +298,7 @@ class _CadastroUserState extends State<CadastroUser> with Login {
     if (_formKey.currentState!.validate()) {
       // comeco da intecao com o backend pra salvar os dados
       print("Form com dados validos -> chamar backend");
+      Navigator.of(context).pushNamed('/order-created');
     } else {
       print("Form com dado(s) invalido(s)");
     }

@@ -191,7 +191,8 @@ class _CartaoPet extends StatelessWidget {
     return Column(
       children: [
         CustomCard(
-            nextPage: DetailPage(pet),
+            routeName: '/detail',
+            arguments: pet,
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
