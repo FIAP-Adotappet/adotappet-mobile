@@ -9,10 +9,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   final bool isHome;
   final VoidCallback onAvatarClick;
 
-  CustomAppBar(
-      {Key? key,
-      this.isHome = false,
-      required this.onAvatarClick})
+  CustomAppBar({Key? key, this.isHome = false, required this.onAvatarClick})
       : preferredSize = Size.fromHeight(65.0),
         super(key: key);
 
@@ -35,13 +32,13 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
             top: 20.0,
           ),
           child: GestureDetector(
-                  onTap: onAvatarClick,
-                  child: CircleAvatar(
-                    child: ClipOval(
-                      child: Image.asset('assets/images/avatar_deslogado.png'),
-                    ),
-                  ),
-                ),
+            onTap: onAvatarClick,
+            child: CircleAvatar(
+              child: ClipOval(
+                child: Image.asset('assets/images/avatar_deslogado.png'),
+              ),
+            ),
+          ),
         ),
       ],
     );
