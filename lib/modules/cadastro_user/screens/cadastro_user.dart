@@ -303,7 +303,7 @@ class _CadastroUserState extends State<CadastroUser> with Login {
               padding: EdgeInsets.all(10),
               child: Text(
                 'ENVIAR!',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(color: Colors.white, fontSize: 20),
               ),
             ),
           ],
