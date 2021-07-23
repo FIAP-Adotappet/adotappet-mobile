@@ -47,7 +47,8 @@ class _SideMenuBarState extends State<SideMenuBar> {
                   ),
                   height: 70,
                 ),
-                // Login
+
+                // User area
                 Container(
                   margin: const EdgeInsets.only(top: 60.0),
                   child: Column(
@@ -66,105 +67,157 @@ class _SideMenuBarState extends State<SideMenuBar> {
                         ),
                       ),
                       SizedBox(height: 5),
-
-                      // Info text
-                      Text(
-                        'Fazer login',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 60),
-
-                      Text(
-                        'Faça login com usuário e senha:',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                      ),
-
-                      Form(
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: _emailController,
-                              style: TextStyle(color: Colors.white),
-                              decoration: const InputDecoration(
-                                hintStyle: TextStyle(color: Colors.white),
-                                hintText: 'Usuário',
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                              ),
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Preenchimento obrigatório';
-                                }
-                                return null;
-                              },
-                            ),
-                            TextFormField(
-                              controller: _senhaController,
-                              obscureText: true,
-                              enableSuggestions: false,
-                              autocorrect: false,
-                              style: TextStyle(color: Colors.white),
-                              decoration: const InputDecoration(
-                                hintStyle: TextStyle(color: Colors.white),
-                                hintText: 'Senha',
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                              ),
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Preenchimento obrigatório';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 15),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 70, vertical: 0),
-                              ),
-                              onPressed: () {
-                                _usuarioController.login(_emailController.text, _senhaController.text);
-                              },
-                              child: const Text(
-                                'ENTRAR',
-                                style: TextStyle(
-                                    color: const Color(0xFFFB7E2C),
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
+                      _Login(),
+                      // _Perfil(),
                     ],
                   ),
                 )
               ])),
         ),
       ),
+    );
+  }
+}
+
+class _Login extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // Info text
+        Text(
+          'Fazer login',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(height: 60),
+
+        Text(
+          'Faça login com usuário e senha:',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+          ),
+        ),
+
+        Column(
+          children: [
+            TextFormField(
+              style: TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                hintStyle: TextStyle(color: Colors.white),
+                hintText: 'Usuário',
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+              ),
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Preenchimento obrigatório';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
+              style: TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                hintStyle: TextStyle(color: Colors.white),
+                hintText: 'Senha',
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+              ),
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Preenchimento obrigatório';
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 15),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 0),
+              ),
+              onPressed: () {
+                // Validate will return true if the form is valid, or false if
+                // the form is invalid.
+              },
+              child: const Text(
+                'ENTRAR',
+                style: TextStyle(
+                    color: const Color(0xFFFB7E2C),
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+}
+
+class _Perfil extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // Info text
+        Text(
+          'Nome do usuário',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
+
+        Text(
+          'nomedousuario@email.com.br',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(height: 405),
+
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 0),
+          ),
+          onPressed: () {
+            print('logoff');
+          },
+          child: const Text(
+            'SAIR',
+            style: TextStyle(
+                color: const Color(0xFFFB7E2C),
+                fontSize: 13,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
     );
   }
 }
