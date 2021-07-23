@@ -37,7 +37,6 @@ class _DetailPageState extends State<DetailPage> with Login {
           leftSlide: leftSlide,
           child: Scaffold(
             appBar: CustomAppBar(
-              isHome: true,
               onAvatarClick: () => this.showHideUser(),
             ),
             extendBody: true,
