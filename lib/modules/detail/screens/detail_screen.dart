@@ -1,3 +1,4 @@
+import 'package:adotappet/config/routes/routes.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
 import 'package:adotappet/utils/mixins/mixin.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
@@ -178,7 +179,7 @@ _InterestButton(context, Size size) {
         ),
       ),
       onPressed: () {
-        Navigator.of(context).pushNamed('/cadastro');
+        Navigator.of(context).pushNamed(Routes.cadastro);
       },
     ),
   );

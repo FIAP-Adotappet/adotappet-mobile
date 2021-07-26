@@ -1,10 +1,11 @@
+import 'package:adotappet/config/routes/routes.dart';
 import 'package:adotappet/modules/detail/screens/detail_screen.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
 import 'package:adotappet/modules/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
-import 'modules/cadastro_user/screens/cadastro_user.dart';
-import 'modules/order_created/screens/order_created_screen.dart';
+import '../../modules/cadastro_user/screens/cadastro_user.dart';
+import '../../modules/order_created/screens/order_created_screen.dart';
 //import 'package:adotappet-mobile/main.dart';
 
 class RouteGenerator {
@@ -12,9 +13,9 @@ class RouteGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
-      case '/':
+      case Routes.root:
         return MaterialPageRoute(builder: (context) => HomePage());
-      case '/detail':
+      case Routes.detail:
         if (args is Pet) {
           return MaterialPageRoute(
             builder: (context) => DetailPage(
@@ -23,9 +24,9 @@ class RouteGenerator {
           );
         }
         return _errorRoute();
-      case '/cadastro':
+      case Routes.cadastro:
         return MaterialPageRoute(builder: (context) => CadastroUser());
-      case '/order-created':
+      case Routes.order_created:
         return MaterialPageRoute(builder: (context) => OrderCreatedPage());
       default:
         return _errorRoute();
