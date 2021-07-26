@@ -2,14 +2,20 @@ import 'package:flutter/material.dart';
 
 class CustomCard extends StatelessWidget {
   const CustomCard(
-      {Key? key, required this.child, this.radius = 15, required this.nextPage})
+      {Key? key,
+      required this.child,
+      this.radius = 15,
+      required this.routeName,
+      required this.arguments})
       : super(key: key);
 
   final Widget child;
 
   final double radius;
 
-  final Widget nextPage;
+  final String routeName;
+
+  final Object? arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +24,7 @@ class CustomCard extends StatelessWidget {
       height: 106,
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => nextPage),
-          );
+          Navigator.of(context).pushNamed(routeName, arguments: arguments);
         },
         child: Card(
           child: child,

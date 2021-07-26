@@ -1,5 +1,4 @@
-import 'package:adotappet/globals.dart';
-import 'package:adotappet/modules/cadastro_user/screens/cadastro_user.dart';
+import 'package:adotappet/config/routes/routes.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
 import 'package:adotappet/utils/mixins/mixin.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
@@ -21,7 +20,7 @@ class _DetailPageState extends State<DetailPage> with Login {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    var icon = Image.asset(
+    Image icon = Image.asset(
       "assets/images/icon_" +
           (widget.pet.sexo == "FEMININO" ? "f" : "m") +
           ".png",
@@ -50,8 +49,9 @@ class _DetailPageState extends State<DetailPage> with Login {
                         end: Alignment.topCenter,
                         colors: [Colors.grey.shade200, Colors.white])),
                 width: size.width,
-                height: size.height * 0.41,
-                margin: EdgeInsets.only(top: 20.0, left: 25.0, right: 25.0),
+                height: size.height * 0.4,
+                margin: EdgeInsets.only(
+                    top: 0, left: size.width * 0.05, right: size.width * 0.05),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(25.0),
                   child: Image.network(
@@ -60,40 +60,9 @@ class _DetailPageState extends State<DetailPage> with Login {
                   ),
                 ),
               ),
-              _DetailsPet(pet: widget.pet, size: size),
-              Positioned(
-                bottom: 30,
-                right: 30,
-                left: 30,
-                height: 40,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ))),
-                  child: Text(
-                    'TENHO INTERESSE!',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 19,
-                      fontWeight: FontWeight.normal,
-                      letterSpacing: 3.0,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CadastroUser()),
-                    );
-                  },
-                ),
-              ),
-              Positioned(
-                right: 30,
-                bottom: size.height * 0.37,
-                child: icon,
-              )
+              _PetInfo(pet: widget.pet, size: size),
+              _InterestButton(context, size),
+              _GenderIcon(size, icon),
             ]),
           ),
         )
@@ -102,11 +71,11 @@ class _DetailPageState extends State<DetailPage> with Login {
   }
 }
 
-class _DetailsPet extends StatelessWidget {
+class _PetInfo extends StatelessWidget {
   final Pet pet;
   final Size size;
 
-  _DetailsPet({required this.pet, required this.size});
+  _PetInfo({required this.pet, required this.size});
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +87,7 @@ class _DetailsPet extends StatelessWidget {
           ),
         ),
         Container(
-          height: size.height * 0.44,
+          height: size.height * 0.45,
           width: double.maxFinite,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -141,7 +110,8 @@ class _DetailsPet extends StatelessWidget {
           ),
           child: Container(
             alignment: Alignment.topLeft,
-            margin: EdgeInsets.only(top: 20, left: 40, right: 40),
+            margin: EdgeInsets.only(
+                top: 10, left: size.width * 0.08, right: size.width * 0.08),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -161,7 +131,7 @@ class _DetailsPet extends StatelessWidget {
                       fontWeight: FontWeight.normal),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 Text(
                   "\u2022 Raça: ${pet.raca}\n"
@@ -185,4 +155,40 @@ class _DetailsPet extends StatelessWidget {
       ],
     );
   }
+}
+
+_InterestButton(context, Size size) {
+  return Positioned(
+    bottom: size.height * 0.03,
+    right: size.width * 0.08,
+    left: size.width * 0.08,
+    height: 40,
+    child: ElevatedButton(
+      style: ButtonStyle(
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ))),
+      child: Text(
+        'TENHO INTERESSE!',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 19,
+          fontWeight: FontWeight.normal,
+          letterSpacing: 3.0,
+        ),
+      ),
+      onPressed: () {
+        Navigator.of(context).pushNamed(Routes.cadastro);
+      },
+    ),
+  );
+}
+
+_GenderIcon(Size size, Image icon) {
+  return Positioned(
+    right: size.width * 0.08,
+    bottom: size.height * 0.38,
+    child: icon,
+  );
 }
