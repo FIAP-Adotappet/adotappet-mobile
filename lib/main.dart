@@ -1,3 +1,4 @@
+import 'package:adotappet/modules/cadastro_user/screens/cadastro_user.dart';
 import 'package:adotappet/config/routes/route_generator.dart';
 import 'package:flutter/material.dart';
 import 'config/routes/routes.dart';

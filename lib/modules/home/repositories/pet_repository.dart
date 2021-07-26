@@ -8,7 +8,10 @@ abstract class PetRepository {
 }
 
 class ApiPetRepository implements PetRepository {
-  PetService petService = ApiPetService();
+  final PetService petService;
+
+
+  ApiPetRepository(this.petService);
 
   @override
   Future<List<Pet>> fetchPets() async {
