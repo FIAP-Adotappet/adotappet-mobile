@@ -1,5 +1,6 @@
+import 'package:adotappet/config/routes/route_generator.dart';
 import 'package:flutter/material.dart';
-
+import 'config/routes/routes.dart';
 import 'config/themes/app_themes.dart';
 import 'modules/home/screens/home_screen.dart';
 
@@ -15,7 +16,8 @@ class AdotAppet extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Adotappet',
       theme: AppThemes.getThemeData(context),
-      home: HomePage(),
+      initialRoute: Routes.root,
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

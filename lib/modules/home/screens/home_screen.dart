@@ -1,3 +1,4 @@
+import 'package:adotappet/config/routes/routes.dart';
 import 'package:adotappet/globals.dart';
 import 'package:adotappet/constants/app_constants.dart';
 import 'package:adotappet/modules/detail/screens/detail_screen.dart';
@@ -191,7 +192,8 @@ class _CartaoPet extends StatelessWidget {
     return Column(
       children: [
         CustomCard(
-            nextPage: DetailPage(pet),
+            routeName: Routes.detail,
+            arguments: pet,
             child: Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
