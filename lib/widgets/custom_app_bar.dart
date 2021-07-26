@@ -1,4 +1,3 @@
-import 'package:adotappet/globals.dart';
 import 'package:flutter/material.dart';
 
 import 'adotappet_icon.dart';

@@ -1,7 +1,5 @@
 import 'package:adotappet/config/routes/routes.dart';
-import 'package:adotappet/globals.dart';
 import 'package:adotappet/constants/app_constants.dart';
-import 'package:adotappet/modules/detail/screens/detail_screen.dart';
 import 'package:adotappet/modules/home/models/pet_model.dart';
 import 'package:adotappet/modules/home/repositories/pet_repository.dart';
 import 'package:adotappet/utils/mixins/mixin.dart';
