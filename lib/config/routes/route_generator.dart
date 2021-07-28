@@ -1,6 +1,6 @@
 import 'package:adotappet/config/routes/routes.dart';
+import 'package:adotappet/models/pet.dart';
 import 'package:adotappet/modules/detail/screens/detail_screen.dart';
-import 'package:adotappet/modules/home/models/pet_model.dart';
 import 'package:adotappet/modules/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 

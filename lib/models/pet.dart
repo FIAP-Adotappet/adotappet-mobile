@@ -35,7 +35,7 @@ class Pet {
 
   static String transformarParaIdade(String dataNascimentoString) {
     DateTime dataNascimento =
-        DateHelper.parseStringToDateTime(dataNascimentoString, "yyyy-MM-dd");
+        DateHelper.parseStringToDateTime(dataNascimentoString, DateHelper.default_pattern);
     int ano = DateHelper.getYearsUntilToday(dataNascimento);
     int mes = DateHelper.getMonthsUntilToday(dataNascimento);
     String textoMes = mes > 1 ? 'Meses' : 'Mês';
