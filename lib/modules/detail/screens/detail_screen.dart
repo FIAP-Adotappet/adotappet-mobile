@@ -1,5 +1,6 @@
 import 'package:adotappet/config/routes/routes.dart';
-import 'package:adotappet/modules/home/models/pet_model.dart';
+import 'package:adotappet/controllers/usuario_controller.dart';
+import 'package:adotappet/models/pet.dart';
 import 'package:adotappet/utils/mixins/mixin.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
 import 'package:adotappet/widgets/side_menu_bar.dart';
@@ -158,6 +159,8 @@ class _PetInfo extends StatelessWidget {
 }
 
 _InterestButton(context, Size size) {
+  final UsuarioController usuarioController =
+      UsuarioController();
   return Positioned(
     bottom: size.height * 0.03,
     right: size.width * 0.08,
@@ -179,7 +182,18 @@ _InterestButton(context, Size size) {
         ),
       ),
       onPressed: () {
-        Navigator.of(context).pushNamed(Routes.cadastro);
+        if (usuarioController.isLogado()) {
+          Navigator.of(context).pushNamed(Routes.cadastro);
+        } else {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Faça o login'),
+                  content: Text('Por favor realize o login primeiro'),
+                );
+              });
+        }
       },
     ),
   );

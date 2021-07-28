@@ -8,7 +8,7 @@ abstract class PetService {
 class ApiPetService implements PetService {
   @override
   Future<http.Response> getPets() async {
-    var url = Uri.parse(Api.url);
+    var url = Uri.parse(Api.url_pets);
     final response = await http.get(url).timeout(Duration(minutes: 1));
     if (response.statusCode == 200) {
       return response;

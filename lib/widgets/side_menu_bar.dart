@@ -1,6 +1,18 @@
+import 'package:adotappet/controllers/usuario_controller.dart';
 import 'package:flutter/material.dart';
 
-class SideMenuBar extends StatelessWidget {
+class SideMenuBar extends StatefulWidget {
+  @override
+  _SideMenuBarState createState() => _SideMenuBarState();
+}
+
+class _SideMenuBarState extends State<SideMenuBar> {
+  final UsuarioController _usuarioController = UsuarioController();
+
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _senhaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final leftSlide = MediaQuery.of(context).size.width * 0.6;
@@ -74,75 +86,78 @@ class SideMenuBar extends StatelessWidget {
                         ),
                       ),
 
-                      Column(
-                        children: [
-                          TextFormField(
-                            style: TextStyle(color: Colors.white),
-                            decoration: const InputDecoration(
-                              hintStyle: TextStyle(color: Colors.white),
-                              hintText: 'Usuário',
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                      Form(
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: _emailController,
+                              style: TextStyle(color: Colors.white),
+                              decoration: const InputDecoration(
+                                hintStyle: TextStyle(color: Colors.white),
+                                hintText: 'Usuário',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
                               ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Preenchimento obrigatório';
+                                }
+                                return null;
+                              },
+                            ),
+                            TextFormField(
+                              controller: _senhaController,
+                              obscureText: true,
+                              enableSuggestions: false,
+                              autocorrect: false,
+                              style: TextStyle(color: Colors.white),
+                              decoration: const InputDecoration(
+                                hintStyle: TextStyle(color: Colors.white),
+                                hintText: 'Senha',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.white),
+                                ),
                               ),
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Preenchimento obrigatório';
+                                }
+                                return null;
+                              },
+                            ),
+                            SizedBox(height: 15),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.white,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 70, vertical: 0),
+                              ),
+                              onPressed: () {
+                                _usuarioController.login(_emailController.text, _senhaController.text);
+                              },
+                              child: const Text(
+                                'ENTRAR',
+                                style: TextStyle(
+                                    color: const Color(0xFFFB7E2C),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Preenchimento obrigatório';
-                              }
-                              return null;
-                            },
-                          ),
-                          TextFormField(
-                            obscureText: true,
-                            enableSuggestions: false,
-                            autocorrect: false,
-                            style: TextStyle(color: Colors.white),
-                            decoration: const InputDecoration(
-                              hintStyle: TextStyle(color: Colors.white),
-                              hintText: 'Senha',
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              border: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                            ),
-                            validator: (String? value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Preenchimento obrigatório';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 15),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 70, vertical: 0),
-                            ),
-                            onPressed: () {
-                              // Validate will return true if the form is valid, or false if
-                              // the form is invalid.
-                            },
-                            child: const Text(
-                              'ENTRAR',
-                              style: TextStyle(
-                                  color: const Color(0xFFFB7E2C),
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       )
                     ],
                   ),

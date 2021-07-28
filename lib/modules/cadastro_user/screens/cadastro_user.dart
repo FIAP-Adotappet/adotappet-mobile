@@ -1,5 +1,8 @@
 import 'package:adotappet/config/routes/routes.dart';
 import 'package:adotappet/constants/app_constants.dart';
+import 'package:adotappet/controllers/usuario_controller.dart';
+import 'package:adotappet/models/endereco.dart';
+import 'package:adotappet/models/usuario.dart';
 import 'package:adotappet/utils/mixins/mixin.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
 import 'package:adotappet/widgets/side_menu_bar.dart';
@@ -15,6 +18,7 @@ class CadastroUser extends StatefulWidget {
 
 class _CadastroUserState extends State<CadastroUser> with Login {
   final _formKey = GlobalKey<FormState>();
+  final UsuarioController _usuarioController = UsuarioController();
   TextEditingController _nameInputController = TextEditingController();
   TextEditingController _mailInputController = TextEditingController();
   TextEditingController _telInputController = TextEditingController();
@@ -23,10 +27,17 @@ class _CadastroUserState extends State<CadastroUser> with Login {
   TextEditingController _lograInputController = TextEditingController();
   TextEditingController _numInputController = TextEditingController();
   TextEditingController _complInputController = TextEditingController();
-  TextEditingController _bairrolInputController = TextEditingController();
-  TextEditingController _cidadelInputController = TextEditingController();
+  TextEditingController _bairroInputController = TextEditingController();
+  TextEditingController _cidadeInputController = TextEditingController();
+  TextEditingController _estadoInputController = TextEditingController();
   TextEditingController _tipoResiInputController = TextEditingController();
   TextEditingController _texAreaController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _initFields();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,19 +165,24 @@ class _CadastroUserState extends State<CadastroUser> with Login {
                 tamanhoMin: 4,
                 tamanhoMax: 30),
             _montaInput(
-                inputControler: _bairrolInputController,
+                inputControler: _bairroInputController,
                 nomeCampo: "Bairro",
                 tamanhoMin: 10,
                 tamanhoMax: 30),
             _montaInput(
-                inputControler: _cidadelInputController,
+                inputControler: _cidadeInputController,
                 nomeCampo: "Cidade",
                 tamanhoMin: 10,
                 tamanhoMax: 30),
             _montaInput(
+                inputControler: _estadoInputController,
+                nomeCampo: "Estado",
+                tamanhoMin: 2,
+                tamanhoMax: 2),
+            _montaInput(
                 inputControler: _tipoResiInputController,
                 nomeCampo: "Tipo residencia",
-                tamanhoMin: 10,
+                tamanhoMin: 1,
                 tamanhoMax: 30),
             _montaTextArea(
               context: context,
@@ -178,7 +194,8 @@ class _CadastroUserState extends State<CadastroUser> with Login {
     );
   }
 
-  _montaInput({inputControler, nomeCampo, tamanhoMin, tamanhoMax, tipo}) {
+  _montaInput(
+      {inputControler, nomeCampo, tamanhoMin, tamanhoMax, tipo, initialValue}) {
     //tipos: alphanumerico, numerico, senha, email
 
     TextInputType tipoDeInput;
@@ -297,11 +314,94 @@ class _CadastroUserState extends State<CadastroUser> with Login {
 
   void _acaoCadastrar(context) {
     if (_formKey.currentState!.validate()) {
-      // comeco da intecao com o backend pra salvar os dados
-      print("Form com dados validos -> chamar backend");
-      Navigator.of(context).pushNamed(Routes.order_created);
+      _usuarioController
+          .update(_montaUsuarioRequest())
+          .then(
+              (value) => Navigator.of(context).pushNamed(Routes.order_created))
+          .onError((error, stackTrace) => {
+                print(stackTrace),
+                print(error),
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Erro ao atualizar cadastro'),
+                        content: Text(error.toString()),
+                      );
+                    })
+              });
     } else {
       print("Form com dado(s) invalido(s)");
+    }
+  }
+
+  Usuario _montaUsuarioRequest() {
+    return Usuario(
+        nomeCompleto: _nameInputController.text,
+        email: _mailInputController.text,
+        telefone: _telInputController.text,
+        cpf: _cpfInputController.text,
+        endereco: _montaEnderecoRequest());
+  }
+
+  Endereco _montaEnderecoRequest() {
+    return Endereco(
+        complemento: _complInputController.text,
+        logradouro: _lograInputController.text,
+        numero: int.parse(_numInputController.text),
+        cidade: _cidadeInputController.text,
+        tipoResidencia: _tipoResiInputController.text,
+        bairro: _bairroInputController.text,
+        estado: 'SP',
+        cep: int.parse(_cepInputController.text));
+  }
+
+  void _initFields() {
+    _nameInputController.text = _usuarioController.usuario!.nomeCompleto == null
+        ? ""
+        : _usuarioController.usuario!.nomeCompleto.toString();
+    _mailInputController.text = _usuarioController.usuario!.email == null
+        ? ""
+        : _usuarioController.usuario!.email.toString();
+    _telInputController.text = _usuarioController.usuario!.telefone == null
+        ? ""
+        : _usuarioController.usuario!.telefone.toString();
+    _cpfInputController.text = _usuarioController.usuario!.cpf == null
+        ? ""
+        : _usuarioController.usuario!.cpf.toString();
+    if (_usuarioController.usuario!.endereco != null) {
+      _cepInputController.text =
+      _usuarioController.usuario!.endereco!.cep == null
+          ? ""
+          : _usuarioController.usuario!.endereco!.cep.toString();
+      _lograInputController.text =
+      _usuarioController.usuario!.endereco!.logradouro == null
+          ? ""
+          : _usuarioController.usuario!.endereco!.logradouro.toString();
+      _numInputController.text =
+      _usuarioController.usuario!.endereco!.numero == null
+          ? ""
+          : _usuarioController.usuario!.endereco!.numero.toString();
+      _complInputController.text =
+      _usuarioController.usuario!.endereco!.complemento == null
+          ? ""
+          : _usuarioController.usuario!.endereco!.complemento.toString();
+      _bairroInputController.text =
+      _usuarioController.usuario!.endereco!.bairro == null
+          ? ""
+          : _usuarioController.usuario!.endereco!.bairro.toString();
+      _cidadeInputController.text =
+      _usuarioController.usuario!.endereco!.cidade == null
+          ? ""
+          : _usuarioController.usuario!.endereco!.cidade.toString();
+      _estadoInputController.text =
+      _usuarioController.usuario!.endereco!.estado == null
+          ? ""
+          : _usuarioController.usuario!.endereco!.estado.toString();
+      _tipoResiInputController.text =
+      _usuarioController.usuario!.endereco!.tipoResidencia == null
+          ? ""
+          : _usuarioController.usuario!.endereco!.tipoResidencia.toString();
     }
   }
 }

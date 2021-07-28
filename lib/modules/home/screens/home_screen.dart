@@ -1,9 +1,9 @@
 import 'package:adotappet/config/routes/routes.dart';
 import 'package:adotappet/constants/app_constants.dart';
-import 'package:adotappet/modules/home/models/pet_model.dart';
-import 'package:adotappet/modules/home/repositories/pet_repository.dart';
+import 'package:adotappet/models/pet.dart';
+import 'package:adotappet/repositories/pet_repository.dart';
 import 'package:adotappet/utils/mixins/mixin.dart';
-import 'package:adotappet/utils/services/rest_api_service.dart';
+import 'package:adotappet/utils/services/pet_service.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
 import 'package:adotappet/widgets/side_menu_bar.dart';
 import 'package:adotappet/widgets/custom_card.dart';
@@ -18,11 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with Login {
   late Future<List<Pet>> _futurePets;
 
-
   PetRepository _petRepository = ApiPetRepository(ApiPetService());
-
-
-
 
   @override
   void initState() {
