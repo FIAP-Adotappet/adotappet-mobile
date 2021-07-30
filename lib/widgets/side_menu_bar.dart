@@ -67,8 +67,8 @@ class _SideMenuBarState extends State<SideMenuBar> {
                         ),
                       ),
                       SizedBox(height: 5),
-                      _Login(),
-                      // _Perfil(),
+                      LoginArea(),
+                      // PerfilArea(),
                     ],
                   ),
                 )
@@ -79,7 +79,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
   }
 }
 
-class _Login extends StatelessWidget {
+class LoginArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -177,7 +177,7 @@ class _Login extends StatelessWidget {
   }
 }
 
-class _Perfil extends StatelessWidget {
+class PerfilArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
