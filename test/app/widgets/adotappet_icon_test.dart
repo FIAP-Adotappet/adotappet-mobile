@@ -4,7 +4,7 @@ import 'package:adotappet/widgets/adotappet_icon.dart';
 
 void main() {
   testWidgets('AdotappetIcon', (WidgetTester tester) async {
-    await tester.pumpWidget(AdotappetIcon());
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: AdotappetIcon())));
 
     // Container() widget
     final Finder containerFinder = find.byType(Container);
