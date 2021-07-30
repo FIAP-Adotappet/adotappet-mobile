@@ -12,7 +12,7 @@ void main() {
   });
 
   testWidgets('Login', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Scaffold(body: LoginArea())));
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: LoginArea(emailController: TextEditingController(), onLogin: () {}, senhaController: TextEditingController(),))));
 
     // Column() widget
     final Finder columnFinder = find.byType(Column);
@@ -28,7 +28,7 @@ void main() {
   });
 
   testWidgets('Perfil', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Scaffold(body: PerfilArea())));
+    await tester.pumpWidget(MaterialApp(home: Scaffold(body: PerfilArea(onLogoff: () {}, emailUsuario: '', nomeUsuario: 'Nome do usuário',))));
 
     // Column() widget
     final Finder columnFinder = find.byType(Column);

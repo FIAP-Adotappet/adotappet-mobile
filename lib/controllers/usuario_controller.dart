@@ -17,7 +17,9 @@ class UsuarioController {
 
   Usuario? get usuario => _usuario;
 
-  void login(String email, String senha) async {
+  set usuario (value) => this._usuario = value;
+
+  Future<void> login(String email, String senha) async {
     _usuario = await this._usuarioRepository.login(email, senha);
   }
 

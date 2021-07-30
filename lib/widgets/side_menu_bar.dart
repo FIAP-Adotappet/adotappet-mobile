@@ -61,14 +61,40 @@ class _SideMenuBarState extends State<SideMenuBar> {
                           backgroundColor: const Color(0xFFFFEC5F),
                           radius: 53,
                           child: ClipOval(
-                            child: Image.asset(
-                                'assets/images/avatar_deslogado.png'),
+                            child: Image.asset(_usuarioController.isLogado()
+                                ? 'assets/images/avatar.png'
+                                : 'assets/images/avatar_deslogado.png'),
                           ),
                         ),
                       ),
                       SizedBox(height: 5),
-                      LoginArea(),
-                      // PerfilArea(),
+
+                      _usuarioController.isLogado()
+                          ? PerfilArea(
+                              onLogoff: () {
+                                this.setState(() {
+                                  _usuarioController.usuario = null;
+                                });
+                              },
+                              emailUsuario: _usuarioController.usuario == null
+                                  ? ''
+                                  : _usuarioController.usuario!.email
+                                      .toString(),
+                              nomeUsuario: _usuarioController.usuario == null
+                                  ? ''
+                                  : _usuarioController.usuario!.nomeCompleto
+                                      .toString(),
+                            )
+                          : LoginArea(
+                              onLogin: () {
+                                _usuarioController
+                                    .login(_emailController.text,
+                                        _senhaController.text)
+                                    .whenComplete(() => this.setState(() {}));
+                              },
+                              senhaController: _senhaController,
+                              emailController: _emailController,
+                            ),
                     ],
                   ),
                 )
@@ -80,6 +106,17 @@ class _SideMenuBarState extends State<SideMenuBar> {
 }
 
 class LoginArea extends StatelessWidget {
+  final TextEditingController emailController;
+  final TextEditingController senhaController;
+  final VoidCallback onLogin;
+
+  const LoginArea(
+      {Key? key,
+      required this.onLogin,
+      required this.emailController,
+      required this.senhaController})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -106,6 +143,7 @@ class LoginArea extends StatelessWidget {
         Column(
           children: [
             TextFormField(
+              controller: emailController,
               style: TextStyle(color: Colors.white),
               decoration: const InputDecoration(
                 hintStyle: TextStyle(color: Colors.white),
@@ -128,6 +166,7 @@ class LoginArea extends StatelessWidget {
               },
             ),
             TextFormField(
+              controller: senhaController,
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
@@ -158,10 +197,7 @@ class LoginArea extends StatelessWidget {
                 primary: Colors.white,
                 padding: EdgeInsets.symmetric(horizontal: 70, vertical: 0),
               ),
-              onPressed: () {
-                // Validate will return true if the form is valid, or false if
-                // the form is invalid.
-              },
+              onPressed: () => onLogin(),
               child: const Text(
                 'ENTRAR',
                 style: TextStyle(
@@ -178,13 +214,24 @@ class LoginArea extends StatelessWidget {
 }
 
 class PerfilArea extends StatelessWidget {
+  final VoidCallback onLogoff;
+  final String nomeUsuario;
+  final String emailUsuario;
+
+  const PerfilArea(
+      {Key? key,
+      required this.onLogoff,
+      required this.nomeUsuario,
+      required this.emailUsuario})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         // Info text
         Text(
-          'Nome do usuário',
+          nomeUsuario,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -193,22 +240,20 @@ class PerfilArea extends StatelessWidget {
         ),
 
         Text(
-          'nomedousuario@email.com.br',
+          emailUsuario,
           style: TextStyle(
             fontSize: 14,
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 405),
+        SizedBox(height: 300),
 
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: Colors.white,
             padding: EdgeInsets.symmetric(horizontal: 70, vertical: 0),
           ),
-          onPressed: () {
-            print('logoff');
-          },
+          onPressed: () => onLogoff(),
           child: const Text(
             'SAIR',
             style: TextStyle(
