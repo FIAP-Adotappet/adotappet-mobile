@@ -47,7 +47,8 @@ class _SideMenuBarState extends State<SideMenuBar> {
                   ),
                   height: 70,
                 ),
-                // Login
+
+                // User area
                 Container(
                   margin: const EdgeInsets.only(top: 60.0),
                   child: Column(
@@ -60,111 +61,208 @@ class _SideMenuBarState extends State<SideMenuBar> {
                           backgroundColor: const Color(0xFFFFEC5F),
                           radius: 53,
                           child: ClipOval(
-                            child: Image.asset(
-                                'assets/images/avatar_deslogado.png'),
+                            child: Image.asset(_usuarioController.isLogado()
+                                ? 'assets/images/avatar.png'
+                                : 'assets/images/avatar_deslogado.png'),
                           ),
                         ),
                       ),
                       SizedBox(height: 5),
 
-                      // Info text
-                      Text(
-                        'Fazer login',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 60),
-
-                      Text(
-                        'Faça login com usuário e senha:',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white,
-                        ),
-                      ),
-
-                      Form(
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: _emailController,
-                              style: TextStyle(color: Colors.white),
-                              decoration: const InputDecoration(
-                                hintStyle: TextStyle(color: Colors.white),
-                                hintText: 'Usuário',
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                              ),
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Preenchimento obrigatório';
-                                }
-                                return null;
+                      _usuarioController.isLogado()
+                          ? PerfilArea(
+                              onLogoff: () {
+                                this.setState(() {
+                                  _usuarioController.usuario = null;
+                                });
                               },
-                            ),
-                            TextFormField(
-                              controller: _senhaController,
-                              obscureText: true,
-                              enableSuggestions: false,
-                              autocorrect: false,
-                              style: TextStyle(color: Colors.white),
-                              decoration: const InputDecoration(
-                                hintStyle: TextStyle(color: Colors.white),
-                                hintText: 'Senha',
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white),
-                                ),
-                              ),
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Preenchimento obrigatório';
-                                }
-                                return null;
+                              emailUsuario: _usuarioController.usuario == null
+                                  ? ''
+                                  : _usuarioController.usuario!.email
+                                      .toString(),
+                              nomeUsuario: _usuarioController.usuario == null
+                                  ? ''
+                                  : _usuarioController.usuario!.nomeCompleto
+                                      .toString(),
+                            )
+                          : LoginArea(
+                              onLogin: () {
+                                _usuarioController
+                                    .login(_emailController.text,
+                                        _senhaController.text)
+                                    .whenComplete(() => this.setState(() {}));
                               },
+                              senhaController: _senhaController,
+                              emailController: _emailController,
                             ),
-                            SizedBox(height: 15),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 70, vertical: 0),
-                              ),
-                              onPressed: () {
-                                _usuarioController.login(_emailController.text, _senhaController.text);
-                              },
-                              child: const Text(
-                                'ENTRAR',
-                                style: TextStyle(
-                                    color: const Color(0xFFFB7E2C),
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
                     ],
                   ),
                 )
               ])),
         ),
       ),
+    );
+  }
+}
+
+class LoginArea extends StatelessWidget {
+  final TextEditingController emailController;
+  final TextEditingController senhaController;
+  final VoidCallback onLogin;
+
+  const LoginArea(
+      {Key? key,
+      required this.onLogin,
+      required this.emailController,
+      required this.senhaController})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // Info text
+        Text(
+          'Fazer login',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(height: 60),
+
+        Text(
+          'Faça login com usuário e senha:',
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+          ),
+        ),
+
+        Column(
+          children: [
+            TextFormField(
+              controller: emailController,
+              style: TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                hintStyle: TextStyle(color: Colors.white),
+                hintText: 'Usuário',
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+              ),
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Preenchimento obrigatório';
+                }
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: senhaController,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
+              style: TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                hintStyle: TextStyle(color: Colors.white),
+                hintText: 'Senha',
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+              ),
+              validator: (String? value) {
+                if (value == null || value.isEmpty) {
+                  return 'Preenchimento obrigatório';
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 15),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                padding: EdgeInsets.symmetric(horizontal: 70, vertical: 0),
+              ),
+              onPressed: () => onLogin(),
+              child: const Text(
+                'ENTRAR',
+                style: TextStyle(
+                    color: const Color(0xFFFB7E2C),
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+}
+
+class PerfilArea extends StatelessWidget {
+  final VoidCallback onLogoff;
+  final String nomeUsuario;
+  final String emailUsuario;
+
+  const PerfilArea(
+      {Key? key,
+      required this.onLogoff,
+      required this.nomeUsuario,
+      required this.emailUsuario})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // Info text
+        Text(
+          nomeUsuario,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
+
+        Text(
+          emailUsuario,
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(height: 300),
+
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: 70, vertical: 0),
+          ),
+          onPressed: () => onLogoff(),
+          child: const Text(
+            'SAIR',
+            style: TextStyle(
+                color: const Color(0xFFFB7E2C),
+                fontSize: 13,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
     );
   }
 }

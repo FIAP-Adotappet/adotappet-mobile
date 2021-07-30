@@ -1,3 +1,4 @@
+import 'package:adotappet/config/routes/routes.dart';
 import 'package:adotappet/constants/app_constants.dart';
 import 'package:adotappet/utils/mixins/mixin.dart';
 import 'package:adotappet/widgets/custom_app_bar.dart';
@@ -53,6 +54,23 @@ class _OrderCreatedPageState extends State<OrderCreatedPage> with Login {
                           fontSize: 14,
                         ),
                       ),
+                    ),
+                    SizedBox(height: 10,),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ))),
+                      child: Text(
+                        'Voltar',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                      onPressed: () => Navigator.of(context).pushNamed(Routes.root),
                     ),
                   ],
                 ),
