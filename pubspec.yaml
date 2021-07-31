@@ -31,6 +31,7 @@ dependencies:
   intl: ^0.17.0
   jiffy: ^4.1.0
   google_fonts: ^2.1.0
+  flutter_launcher_icons: ^0.9.1
 
 dev_dependencies:
   flutter_test:
@@ -39,6 +40,11 @@ dev_dependencies:
   network_image_mock: ^2.0.1
 
   http:
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/logo.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
