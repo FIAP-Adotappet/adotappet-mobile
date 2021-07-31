@@ -28,72 +28,74 @@ class _HomePageState extends State<HomePage> with Login {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SideMenuBar(),
+    return SafeArea(
+      child: Stack(
+        children: [
+          SideMenuBar(),
 
-        // Content page
-        UserTransform(
-          leftSlide: leftSlide,
-          child: Scaffold(
-            appBar: CustomAppBar(
-              isHome: true,
-              onAvatarClick: () => this.showHideUser(),
-            ),
-            extendBody: true,
-            backgroundColor: Colors.transparent,
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 25),
-                _TituloPagina(
-                  texto: 'Doe seu lar,',
-                  bold: true,
-                ),
-                _TituloPagina(
-                  texto: 'adote um pet.',
-                  bold: false,
-                ),
-                SizedBox(height: 30),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: _CartaoFiltro(
-                        pathImagem: 'assets/images/filtro_cachorro.png',
-                        textoCartao: 'Cachorros',
+          // Content page
+          UserTransform(
+            leftSlide: leftSlide,
+            child: Scaffold(
+              appBar: CustomAppBar(
+                isHome: true,
+                onAvatarClick: () => this.showHideUser(),
+              ),
+              extendBody: true,
+              backgroundColor: Colors.transparent,
+              body: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 25),
+                  _TituloPagina(
+                    texto: 'Doe seu lar,',
+                    bold: true,
+                  ),
+                  _TituloPagina(
+                    texto: 'adote um pet.',
+                    bold: false,
+                  ),
+                  SizedBox(height: 30),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: _CartaoFiltro(
+                          pathImagem: 'assets/images/filtro_cachorro.png',
+                          textoCartao: 'Cachorros',
+                        ),
                       ),
-                    ),
-                    _CartaoFiltro(
-                      pathImagem: 'assets/images/filtro_gato.png',
-                      textoCartao: 'Gatos',
-                    )
-                  ],
-                ),
-                _TituloLista(),
-                FutureBuilder<List<Pet>>(
-                  future: _futurePets,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Expanded(
-                        child: ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              Pet pet = snapshot.data![index];
-                              return _CartaoPet(pet: pet);
-                            }),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text("${snapshot.error}");
-                    }
-                    return CircularProgressIndicator();
-                  },
-                ),
-              ],
+                      _CartaoFiltro(
+                        pathImagem: 'assets/images/filtro_gato.png',
+                        textoCartao: 'Gatos',
+                      )
+                    ],
+                  ),
+                  _TituloLista(),
+                  FutureBuilder<List<Pet>>(
+                    future: _futurePets,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Expanded(
+                          child: ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                Pet pet = snapshot.data![index];
+                                return _CartaoPet(pet: pet);
+                              }),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
+                      }
+                      return CircularProgressIndicator();
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

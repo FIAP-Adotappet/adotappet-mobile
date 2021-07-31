@@ -41,46 +41,48 @@ class _CadastroUserState extends State<CadastroUser> with Login {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SideMenuBar(),
+    return SafeArea(
+      child: Stack(
+        children: [
+          SideMenuBar(),
 
-        // Content page
-        UserTransform(
-          leftSlide: leftSlide,
-          child: Scaffold(
-            appBar: CustomAppBar(
-              onAvatarClick: () => this.showHideUser(),
-            ),
-            body: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(5.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.fromBorderSide(
-                        BorderSide(color: Colors.orange),
+          // Content page
+          UserTransform(
+            leftSlide: leftSlide,
+            child: Scaffold(
+              appBar: CustomAppBar(
+                onAvatarClick: () => this.showHideUser(),
+              ),
+              body: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(5.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.fromBorderSide(
+                          BorderSide(color: Colors.orange),
+                        ),
+                        color: Colors.white,
                       ),
-                      color: Colors.white,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          _montaHeaderCadastro(context),
+                          _montaFormularioDadosCadastrais(context),
+                        ],
+                      ),
                     ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        _montaHeaderCadastro(context),
-                        _montaFormularioDadosCadastrais(context),
-                      ],
-                    ),
-                  ),
-                  _montaBotaoCadastro(context),
-                ],
+                    _montaBotaoCadastro(context),
+                  ],
+                ),
               ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 

@@ -28,45 +28,47 @@ class _DetailPageState extends State<DetailPage> with Login {
       width: 25,
     );
 
-    return Stack(
-      children: [
-        SideMenuBar(),
+    return SafeArea(
+      child: Stack(
+        children: [
+          SideMenuBar(),
 
-        // Content page
-        UserTransform(
-          leftSlide: leftSlide,
-          child: Scaffold(
-            appBar: CustomAppBar(
-              onAvatarClick: () => this.showHideUser(),
-            ),
-            extendBody: true,
-            backgroundColor: Colors.transparent,
-            body: Stack(children: [
-              Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [Colors.grey.shade200, Colors.white])),
-                width: size.width,
-                height: size.height * 0.4,
-                margin: EdgeInsets.only(
-                    top: 0, left: size.width * 0.05, right: size.width * 0.05),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(25.0),
-                  child: Image.network(
-                    widget.pet.imagem,
-                    fit: BoxFit.cover,
+          // Content page
+          UserTransform(
+            leftSlide: leftSlide,
+            child: Scaffold(
+              appBar: CustomAppBar(
+                onAvatarClick: () => this.showHideUser(),
+              ),
+              extendBody: true,
+              backgroundColor: Colors.transparent,
+              body: Stack(children: [
+                Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [Colors.grey.shade200, Colors.white])),
+                  width: size.width,
+                  height: size.height * 0.4,
+                  margin: EdgeInsets.only(
+                      top: 0, left: size.width * 0.05, right: size.width * 0.05),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(25.0),
+                    child: Image.network(
+                      widget.pet.imagem,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              _PetInfo(pet: widget.pet, size: size),
-              _InterestButton(context, size),
-              _GenderIcon(size, icon),
-            ]),
-          ),
-        )
-      ],
+                _PetInfo(pet: widget.pet, size: size),
+                _InterestButton(context, size),
+                _GenderIcon(size, icon),
+              ]),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
