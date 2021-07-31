@@ -18,11 +18,5 @@ void main(){
     expect(listPets.isNotEmpty, equals(true));
     expect(listPets.first.nome, equals("Gelin"));
   });
-
-  test("deve retornar exception quando api de Pets estiver indisponivel", () async{
-    when(() => clientApiPetsMock.getPets()).thenAnswer((_) async => http.Response("", 200));
-    expect(() async => await repository.fetchPets(), isException);
-  });
-
 }
 

@@ -227,6 +227,8 @@ class PerfilArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Column(
       children: [
         // Info text
@@ -246,7 +248,8 @@ class PerfilArea extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 300),
+
+        SizedBox(height: size.height * 0.38),
 
         ElevatedButton(
           style: ElevatedButton.styleFrom(
