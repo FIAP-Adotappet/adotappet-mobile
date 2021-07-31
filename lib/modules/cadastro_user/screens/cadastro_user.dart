@@ -30,7 +30,7 @@ class _CadastroUserState extends State<CadastroUser> with Login {
   TextEditingController _bairroInputController = TextEditingController();
   TextEditingController _cidadeInputController = TextEditingController();
   TextEditingController _estadoInputController = TextEditingController();
-  TextEditingController _tipoResiInputController = TextEditingController();
+  String _tipoResiValue = '';
   TextEditingController _texAreaController = TextEditingController();
 
   @override
@@ -181,11 +181,14 @@ class _CadastroUserState extends State<CadastroUser> with Login {
                 nomeCampo: "Estado",
                 tamanhoMin: 2,
                 tamanhoMax: 2),
-            _montaInput(
-                inputControler: _tipoResiInputController,
-                nomeCampo: "Tipo residencia",
-                tamanhoMin: 1,
-                tamanhoMax: 30),
+            _montaInputTipoResidencia(
+              onChanged: (String? newValue) {
+                this.setState(() {
+                  _tipoResiValue = newValue!;
+                });
+              },
+              textTheme: Theme.of(context),
+            ),
             _montaTextArea(
               context: context,
               inputController: _texAreaController,
@@ -223,6 +226,39 @@ class _CadastroUserState extends State<CadastroUser> with Login {
       autofocus: true,
       style: TextStyle(color: Colors.grey),
       decoration: _decorarInputs(nome: nomeCampo),
+    );
+  }
+
+  _montaInputTipoResidencia({onChanged, textTheme}) {
+    Map<String, String> availableTiposResidencia = {
+      'CASA_SEM_QUINTAL': 'Casa sem quintal',
+      'CASA_COM_QUINTAL': 'Casa com quintal',
+      'APTO': 'Apto',
+      'CHACARA': 'Chácara'
+    };
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SizedBox(height: 10),
+        Text(
+          'Tipo de residência',
+          style: TextStyle(color: Colors.grey),
+        ),
+        DropdownButton<String>(
+          value: _tipoResiValue,
+          items: availableTiposResidencia.entries
+              .map<DropdownMenuItem<String>>(
+                  (MapEntry<String, String> e) => DropdownMenuItem<String>(
+                        value: e.key,
+                        child: Text(e.value),
+                      ))
+              .toList(),
+          onChanged: onChanged,
+          autofocus: true,
+          style: TextStyle(color: Colors.grey),
+        ),
+      ],
     );
   }
 
@@ -352,7 +388,7 @@ class _CadastroUserState extends State<CadastroUser> with Login {
         logradouro: _lograInputController.text,
         numero: int.parse(_numInputController.text),
         cidade: _cidadeInputController.text,
-        tipoResidencia: _tipoResiInputController.text,
+        tipoResidencia: _tipoResiValue,
         bairro: _bairroInputController.text,
         estado: 'SP',
         cep: int.parse(_cepInputController.text));
@@ -373,37 +409,37 @@ class _CadastroUserState extends State<CadastroUser> with Login {
         : _usuarioController.usuario!.cpf.toString();
     if (_usuarioController.usuario!.endereco != null) {
       _cepInputController.text =
-      _usuarioController.usuario!.endereco!.cep == null
-          ? ""
-          : _usuarioController.usuario!.endereco!.cep.toString();
+          _usuarioController.usuario!.endereco!.cep == null
+              ? ""
+              : _usuarioController.usuario!.endereco!.cep.toString();
       _lograInputController.text =
-      _usuarioController.usuario!.endereco!.logradouro == null
-          ? ""
-          : _usuarioController.usuario!.endereco!.logradouro.toString();
+          _usuarioController.usuario!.endereco!.logradouro == null
+              ? ""
+              : _usuarioController.usuario!.endereco!.logradouro.toString();
       _numInputController.text =
-      _usuarioController.usuario!.endereco!.numero == null
-          ? ""
-          : _usuarioController.usuario!.endereco!.numero.toString();
+          _usuarioController.usuario!.endereco!.numero == null
+              ? ""
+              : _usuarioController.usuario!.endereco!.numero.toString();
       _complInputController.text =
-      _usuarioController.usuario!.endereco!.complemento == null
-          ? ""
-          : _usuarioController.usuario!.endereco!.complemento.toString();
+          _usuarioController.usuario!.endereco!.complemento == null
+              ? ""
+              : _usuarioController.usuario!.endereco!.complemento.toString();
       _bairroInputController.text =
-      _usuarioController.usuario!.endereco!.bairro == null
-          ? ""
-          : _usuarioController.usuario!.endereco!.bairro.toString();
+          _usuarioController.usuario!.endereco!.bairro == null
+              ? ""
+              : _usuarioController.usuario!.endereco!.bairro.toString();
       _cidadeInputController.text =
-      _usuarioController.usuario!.endereco!.cidade == null
-          ? ""
-          : _usuarioController.usuario!.endereco!.cidade.toString();
+          _usuarioController.usuario!.endereco!.cidade == null
+              ? ""
+              : _usuarioController.usuario!.endereco!.cidade.toString();
       _estadoInputController.text =
-      _usuarioController.usuario!.endereco!.estado == null
-          ? ""
-          : _usuarioController.usuario!.endereco!.estado.toString();
-      _tipoResiInputController.text =
-      _usuarioController.usuario!.endereco!.tipoResidencia == null
-          ? ""
-          : _usuarioController.usuario!.endereco!.tipoResidencia.toString();
+          _usuarioController.usuario!.endereco!.estado == null
+              ? ""
+              : _usuarioController.usuario!.endereco!.estado.toString();
+      _tipoResiValue =
+          _usuarioController.usuario!.endereco!.tipoResidencia == null
+              ? ""
+              : _usuarioController.usuario!.endereco!.tipoResidencia.toString();
     }
   }
 }
