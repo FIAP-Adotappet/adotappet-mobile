@@ -50,7 +50,7 @@ class _SideMenuBarState extends State<SideMenuBar> {
 
                 // User area
                 Container(
-                  margin: const EdgeInsets.only(top: 60.0),
+                  margin: const EdgeInsets.only(top: 40.0),
                   child: Column(
                     children: [
                       // Avatar image
@@ -130,7 +130,7 @@ class LoginArea extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        SizedBox(height: 60),
+        SizedBox(height: 15),
 
         Text(
           'Faça login com usuário e senha:',
@@ -191,7 +191,7 @@ class LoginArea extends StatelessWidget {
                 return null;
               },
             ),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
