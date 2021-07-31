@@ -136,7 +136,7 @@ class _CadastroUserState extends State<CadastroUser> with Login {
                 inputControler: _telInputController,
                 nomeCampo: "Telefone",
                 tamanhoMin: 8,
-                tamanhoMax: 20,
+                tamanhoMax: 13,
                 tipo: "numerico"),
             _montaInput(
                 inputControler: _cpfInputController,
@@ -153,13 +153,13 @@ class _CadastroUserState extends State<CadastroUser> with Login {
             _montaInput(
                 inputControler: _lograInputController,
                 nomeCampo: "Logradouro",
-                tamanhoMin: 10,
+                tamanhoMin: 3,
                 tamanhoMax: 30),
             _montaInput(
                 inputControler: _numInputController,
                 nomeCampo: "Numero",
                 tamanhoMin: 1,
-                tamanhoMax: 8,
+                tamanhoMax: 5,
                 tipo: "numerico"),
             _montaInput(
                 inputControler: _complInputController,
@@ -169,12 +169,12 @@ class _CadastroUserState extends State<CadastroUser> with Login {
             _montaInput(
                 inputControler: _bairroInputController,
                 nomeCampo: "Bairro",
-                tamanhoMin: 10,
+                tamanhoMin: 3,
                 tamanhoMax: 30),
             _montaInput(
                 inputControler: _cidadeInputController,
                 nomeCampo: "Cidade",
-                tamanhoMin: 10,
+                tamanhoMin: 3,
                 tamanhoMax: 30),
             _montaInput(
                 inputControler: _estadoInputController,
